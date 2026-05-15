@@ -1,42 +1,43 @@
-import axios from 'axios';
+// services/api.js
+const API_URL = import.meta.env.VITE_API_URL;
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-export const API_ORIGIN = API_URL.replace(/\/api\/?$/, '');
-
-export const getUploadUrl = (filename) => {
-  if (!filename) return '';
-  if (/^https?:\/\//i.test(filename)) return filename;
-  return `${API_ORIGIN}/uploads/${filename}`;
+export const loginUser = async (credentials) => {
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error;
+  }
 };
 
-const api = axios.create({
-  baseURL: API_URL,
-  headers: { 'Content-Type': 'application/json' },
-});
-
-// Request interceptor — attach JWT token
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Response interceptor — handle auth errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
+export const fetchWorkers = async () => {
+  try {
+    const response = await fetch(`${API_URL}/workers`);
+    return await response.json();
+  } catch (error) {
+    console.error('Fetch workers error:', error);
+    throw error;
   }
-);
+};
 
-export default api;
+export const createBooking = async (bookingData) => {
+  try {
+    const response = await fetch(`${API_URL}/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bookingData),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Booking error:', error);
+    throw error;
+  }
+};
+
+// Default export for all existing imports
+export default { loginUser, fetchWorkers, createBooking };

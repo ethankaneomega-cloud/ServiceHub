@@ -1,5 +1,15 @@
 // services/api.js
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_ORIGIN = API_URL.replace(/\/api\/?$/, '');
+
+// Named export for uploaded files
+export function getUploadUrl(filename) {
+  if (!filename) return '';
+  if (/^https?:\/\//i.test(filename)) return filename;
+  return `${API_ORIGIN}/uploads/${filename}`;
+}
+
+// --- Existing system functions ---
 
 export const loginUser = async (credentials) => {
   try {
@@ -39,5 +49,5 @@ export const createBooking = async (bookingData) => {
   }
 };
 
-// Default export for all existing imports
+// Default export — keeps all existing functions
 export default { loginUser, fetchWorkers, createBooking };

@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "servicehub-frontend",
   "private": true,
   "version": "1.0.0",
@@ -36,22 +35,3 @@
     "vite": "^8.0.13"
   }
 }
-=======
-  "name": "frontend",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "lucide-react": "^1.16.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "react-router-dom": "^7.15.1",
-    "react-scripts": "^5.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  }
-}
->>>>>>> 8e125638fc2577f21f6d314ea4592b819d1d4786
